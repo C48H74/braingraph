@@ -35,6 +35,7 @@ Pega un texto, un documento, un esquema — lo que sea — y `braingraph` lo con
 ## ✨ Características
 
 - 🧠 **Texto → cerebro** — `#` centro, `##` ramas, `-` hojas. O pega texto libre y se estructura solo.
+- 📄 **Cualquier archivo → cerebro** — PDF, DOCX, PPTX, XLSX, CSV, HTML, Markdown: el texto se extrae y estructura automáticamente.
 - 🌀 **Física viva** — layout force-directed continuo; arrastra nodos, zoom, pan, búsqueda.
 - 📝 **Caja de tema por nodo** — clic en un nodo y se abre una caja editable; autoguardado, con navegación ‹ ›.
 - 🌐 **Interfaz trilingüe** — inglés (por defecto), portugués, español. Selector arriba o `?lang=en|pt|es`.

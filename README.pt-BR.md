@@ -35,6 +35,7 @@ Cole um texto, um documento, um esboço — qualquer coisa — e o `braingraph` 
 ## ✨ Recursos
 
 - 🧠 **Texto → cérebro** — `#` centro, `##` ramos, `-` folhas. Ou cole texto solto que ele se estrutura.
+- 📄 **Qualquer arquivo → cérebro** — PDF, DOCX, PPTX, XLSX, CSV, HTML, Markdown: o texto é extraído e estruturado automaticamente.
 - 🌀 **Física viva** — layout force-directed contínuo; arraste nós, zoom, pan, busca.
 - 📝 **Caixa de tema por nó** — clique numa bolinha e abre uma caixa editável; salva automático, com navegação ‹ ›.
 - 🌐 **Interface trilíngue** — inglês (padrão), português, espanhol. Seletor no topo ou `?lang=en|pt|es`.

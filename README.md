@@ -35,6 +35,7 @@ Paste a text, a document, an outline — anything — and `braingraph` turns it 
 ## ✨ Features
 
 - 🧠 **Text → brain** — `#` center, `##` branches, `-` leaves. Or paste plain text and it structures itself.
+- 📄 **Any file → brain** — PDF, DOCX, PPTX, XLSX, CSV, HTML, Markdown: text is extracted and structured into a brain automatically.
 - 🌀 **Living physics** — continuous force-directed layout; drag nodes, zoom, pan, search.
 - 📝 **Topic box per node** — click a node to open an editable text box; auto-saved, with ‹ › navigation.
 - 🌐 **Trilingual UI** — English (default), Portuguese, Spanish. Switcher in the header, or `?lang=en|pt|es`.
