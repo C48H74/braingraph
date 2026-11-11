@@ -1,97 +1,101 @@
-# 🧠 Cérebro Vivo
+# 🧠 Cérebro Vivo — Living Brain
 
-> Uma **Claude Skill** que transforma qualquer texto num grafo mental **vivo e interativo** em HTML — hub central, ramos e folhas, física *force-directed*. Clique em qualquer bolinha e abre uma **caixa de texto editável** com o conteúdo do tema.
+> **Read this in other languages:** [🇧🇷 Português](README.pt-BR.md) · [🇪🇸 Español](README.es.md)
 
-**Zero dependências · um único arquivo `.html` · funciona offline em qualquer navegador.**
+> A **Claude Skill** that turns any text into a **living, interactive** mind graph in HTML — central hub, branches and leaves, *force-directed* physics. Click any node and an **editable text box** opens with that topic's content.
 
-![Como funciona](assets/04-como-funciona.png)
+**Zero dependencies · a single `.html` file · works offline in any browser · UI in EN / PT / ES.**
 
----
-
-## ✨ O que faz
-
-- Converte texto (markdown ou texto solto) num **cérebro** navegável: `# centro`, `## ramos`, `- folhas`.
-- **Física contínua** (force-directed): os nós respiram, você arrasta, dá zoom e busca.
-- **Clique numa bolinha → caixa de texto do tema**, editável, com salvamento automático e navegação ‹ ›.
-- Exporta **PNG**. Reabre o editor pra montar outro cérebro a qualquer momento.
+![How it works](assets/en/00-how-it-works.png)
 
 ---
 
-## 🖼️ Como é visualmente
+## ✨ What it does
 
-**Visão geral** — o grafo inteiro, estilo preto & branco:
-
-![Visão geral](assets/01-overview.png)
-
-**Clique num ramo** — foca a vizinhança e abre a caixa do tema:
-
-![Caixa do tema — ramo](assets/02-ramo-nota.png)
-
-**Clique numa folha** — mesma caixa, pra qualquer nó:
-
-![Caixa do tema — folha](assets/03-folha-nota.png)
-
-**Editor** — cole seu texto e gere o cérebro:
-
-![Editor](assets/05-editor.png)
+- Converts text (markdown or plain text) into a navigable **brain**: `# center`, `## branches`, `- leaves`.
+- **Continuous physics** (force-directed): nodes breathe, you drag, zoom and search.
+- **Click a node → topic text box**, editable, auto-saved, with ‹ › navigation.
+- Exports **PNG**. Reopens the editor to build another brain anytime.
+- **Trilingual UI** (English, Portuguese, Spanish) — switcher in the header, `?lang=` supported.
 
 ---
 
-## 🚀 Instalar (Claude Code)
+## 🖼️ What it looks like
+
+**Overview** — the whole graph, black & white:
+
+![Overview](assets/en/01-overview.png)
+
+**Click a node** — focuses the neighborhood and opens the topic box:
+
+![Topic box](assets/en/02-topic-note.png)
+
+**Editor** — paste your text and generate the brain:
+
+![Editor](assets/en/03-editor.png)
+
+---
+
+## 🚀 Install (Claude Code)
 
 ```bash
 git clone https://github.com/C48H74/cerebro-vivo ~/.claude/skills/cerebro-vivo
 ```
 
-Depois é só pedir ao Claude: *"transforma este texto num cérebro vivo"* e passar o conteúdo.
+Then ask Claude: *"turn this text into a living brain"* and pass the content.
 
-### Usar sem o Claude
-Abra `assets/cerebro-template.html` (ou `examples/cyber-30-dias.html`) direto no navegador, clique em **✎ Texto**, cole e gere.
-
----
-
-## 📝 Formato de entrada
-
-```
-# Título central
-## Primeiro ramo
-- folha
-- folha
-## Segundo ramo
-- folha
-```
-
-- `#` → centro (um só) · `##` → ramo · `-` `*` `•` → folha
-- **Texto solto**: 1ª linha = centro, demais = ramos; vírgulas viram folhas.
+### Use without Claude
+Open `assets/cerebro-template.html` (or `examples/cyber-30-dias.html`) directly in a browser, click **✎ Text**, paste and generate.
 
 ---
 
-## 📂 Estrutura
+## 📝 Input format
+
+```
+# Central title
+## First branch
+- leaf
+- leaf
+## Second branch
+- leaf
+```
+
+- `#` → center (only one) · `##` → branch · `-` `*` `•` → leaf
+- **Plain text**: first line = center, the rest = branches; commas become leaves.
+
+---
+
+## 📂 Structure
 
 ```
 cerebro-vivo/
-├── SKILL.md                     # a skill (como o Claude a usa)
-├── README.md
+├── SKILL.md                     # the skill (how Claude uses it)
+├── README.md / .pt-BR / .es     # docs (EN primary + translations)
+├── ROADMAP.md
 ├── assets/
-│   ├── cerebro-template.html    # o template (genérico, pronto pra usar)
-│   └── *.png                    # imagens deste README
+│   ├── cerebro-template.html    # the template (generic, ready to use)
+│   └── en|pt|es/*.png           # screenshots per language
 └── examples/
-    └── cyber-30-dias.html       # exemplo pronto: plano de cyber Security+/CEH/OSCP/CISSP
+    └── cyber-30-dias.html       # ready example: Security+/CEH/OSCP/CISSP plan
 ```
 
 ---
 
-## 🔧 Como a skill monta (modo populado)
+## 🔧 How the skill builds it (pre-filled mode)
 
-O Claude edita dois pontos no `<script>` do template:
+Claude edits two points in the template's `<script>`:
 
-- `const SAMPLE = \`...\`;` → o texto do usuário.
-- `const SEED = { "rótulo": "descrição do tema", ... };` → preenche a caixa de cada bolinha.
+- `const SAMPLE = \`...\`;` → the user's text.
+- `const SEED = { "label": "topic description", ... };` → fills each node's box.
 
-E entrega como artefato ou arquivo `.html`. Detalhes em [`SKILL.md`](SKILL.md).
+Then delivers it as an artifact or a `.html` file. Details in [`SKILL.md`](SKILL.md).
 
 ---
 
-## Licença
+## 🗺️ Roadmap
+
+See [`ROADMAP.md`](ROADMAP.md).
+
+## License
 
 MIT © [C48H74](https://github.com/C48H74)

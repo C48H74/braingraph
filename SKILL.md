@@ -1,84 +1,92 @@
 ---
 name: cerebro-vivo
-description: Use quando o usuário quiser transformar um texto, documento, resumo ou lista de tópicos num "cérebro" — um mapa mental / grafo de conhecimento vivo e interativo em HTML (hub central, ramos e folhas, force-directed), onde cada bolinha abre uma caixa de texto com o conteúdo do tema. Gatilhos: "transforma isso num cérebro", "mapa mental interativo", "grafo de conhecimento em HTML", "knowledge graph vivo", "visualizar esse texto como cérebro".
+description: Use when the user wants to turn a text, document, summary or list of topics into a "brain" — a living, interactive mind map / knowledge graph in HTML (central hub, branches and leaves, force-directed), where clicking any node opens an editable text box with the topic's content. Triggers: "turn this into a brain", "interactive mind map", "knowledge graph in HTML", "living knowledge graph", "visualize this text as a brain".
 ---
 
-# Cérebro Vivo
+# Cérebro Vivo (Living Brain)
 
-Transforma qualquer texto num **grafo mental vivo e interativo**: um hub central, ramos e folhas, com física *force-directed* contínua. Clicar em qualquer bolinha abre um painel com uma **caixa de texto editável** descrevendo o tema. Saída = **um único arquivo HTML**, sem dependências, funciona offline em qualquer navegador.
+Turns any text into a **living, interactive mind graph**: a central hub, branches and leaves, with continuous *force-directed* physics. Clicking any node opens a panel with an **editable text box** describing that topic. Output = **a single HTML file**, no dependencies, works offline in any browser. The UI ships in **English, Portuguese and Spanish** (language switcher in the header, English by default).
 
-![Como funciona](assets/04-como-funciona.png)
+![How it works](assets/en/00-how-it-works.png)
 
-## Quando usar
+## When to use
 
-- O usuário dá um texto/documento/outline e quer **ver** como um mapa mental interativo.
-- Quer navegar um tema por áreas (centro → ramos → folhas) em vez de ler em lista.
-- Quer um artefato visual pra estudar, apresentar ou publicar.
+- The user gives a text/document/outline and wants to **see** it as an interactive mind map.
+- They want to navigate a topic by areas (center → branches → leaves) instead of reading a list.
+- They want a visual artifact to study, present or publish.
 
-## Como entregar (2 modos)
+## How to deliver (2 modes)
 
-### Modo A — Pronto para o usuário colar (rápido)
-Entregue o arquivo `assets/cerebro-template.html` como está. Ele já é uma ferramenta completa: o usuário clica em **✎ Texto**, cola o conteúdo e gera o cérebro. Use quando o usuário não deu um texto específico ainda.
+### Mode A — Ready for the user to paste (fast)
+Hand over `assets/cerebro-template.html` as-is. It is already a complete tool: the user clicks **✎ Text**, pastes content and generates the brain. Use when the user hasn't supplied a specific text yet.
 
-### Modo B — Já populado com o conteúdo do usuário (recomendado)
-Quando o usuário forneceu um texto, **edite uma cópia do template** injetando o conteúdo dele, e entregue já renderizando. Dois pontos de edição no `<script>`:
+### Mode B — Pre-filled with the user's content (recommended)
+When the user supplied a text, **edit a copy of the template** injecting their content, and deliver it already rendering. Two edit points inside `<script>`:
 
-1. **`const SAMPLE = \`...\`;`** — substitua pelo texto do usuário no formato abaixo.
-2. **`const SEED = { ... };`** — opcional: um dicionário `"Rótulo do nó": "descrição do tema"`. Preenche a caixa de texto de cada bolinha. Deixe `{}` se o usuário vai escrever as descrições à mão.
+1. **`const SAMPLE = \`...\`;`** — replace with the user's text in the format below.
+2. **`const SEED = { ... };`** — optional dictionary `"node label": "topic description"`. Fills the text box of each node. Leave `{}` if the user will write the descriptions by hand.
 
-Depois, entregue como **artefato** (publique o HTML) ou como **arquivo .html** para download, conforme o contexto.
+Then deliver as an **artifact** (publish the HTML) or as a **.html file** for download, depending on context.
 
-## Formato de entrada (a string SAMPLE)
+## Input format (the SAMPLE string)
 
 ```
-# Título central
-## Primeiro ramo
-- folha
-- folha
-## Segundo ramo
-- folha
+# Central title
+## First branch
+- leaf
+- leaf
+## Second branch
+- leaf
 ```
 
-Regras do parser (já embutidas no template):
-- `#` → **centro** (um só).
-- `##` → **ramo** (sai do centro).
-- `-`, `*` ou `•` → **folha** (sai do último ramo).
-- **Texto solto** (sem marcações): a 1ª linha vira o centro, cada linha seguinte vira um ramo; vírgulas/`;`/`|` na mesma linha viram folhas daquele ramo.
+Parser rules (already built into the template):
+- `#` → **center** (only one).
+- `##` → **branch** (from the center).
+- `-`, `*` or `•` → **leaf** (from the last branch).
+- **Plain text** (no markers): the first line becomes the center, each following line a branch; commas / `;` / `|` on the same line become leaves of that branch.
 
-## Preenchendo as descrições (SEED)
+## Filling the descriptions (SEED)
 
-Para cada rótulo que aparece no texto, escreva 1–2 frases diretas:
+For each label that appears in the text, write 1–2 direct sentences:
 
 ```js
 const SEED = {
-  "Título central": "O que o mapa todo representa, em uma frase.",
-  "Primeiro ramo": "O que esse ramo cobre.",
-  "folha": "Descrição curta e útil do tema."
+  "Central title": "What the whole map represents, in one sentence.",
+  "First branch": "What this branch covers.",
+  "leaf": "Short, useful description of the topic."
 };
 ```
 
-Rótulos repetidos compartilham a mesma descrição (o significado é o mesmo). Nós sem entrada no SEED abrem a caixa vazia com o convite *"Escreva sobre 'tema'…"*.
+Repeated labels share the same description (same meaning). Nodes without a SEED entry open an empty box with the prompt *"Write about 'topic'…"*.
 
-## O que o usuário pode fazer no resultado
+## Language
 
-- **Arrastar** o fundo (mover) e **roda do mouse** (zoom).
-- **Arrastar um nó** para reposicionar; **duplo-clique** solta o nó de volta à física.
-- **Clicar numa bolinha** → foca a vizinhança e abre a **caixa de texto do tema** (editável, com ‹ › pra navegar entre nós e ✓ salvo automático).
-- **Buscar** um nó pelo nome.
-- **↧ PNG** exporta a imagem do cérebro.
-- **✎ Texto** reabre o editor pra gerar outro cérebro de outro texto.
+The tool auto-detects `?lang=en|pt|es` in the URL and defaults to English. The header has a switcher. Only the **UI** is translated — node labels and topic text come from the user's content, so write those in the user's language.
 
-O texto digitado nas caixas é salvo na sessão do navegador (localStorage), por cérebro.
+## What the user can do with the result
 
-## Dicas de qualidade
+- **Drag** the background (pan) and **mouse wheel** (zoom).
+- **Drag a node** to reposition; **double-click** releases it back to the physics.
+- **Click a node** → focuses its neighborhood and opens the **topic text box** (editable, with ‹ › to move between nodes and auto-save ✓).
+- **Search** a node by name.
+- **↧ PNG** exports the brain as an image.
+- **✎ Text** reopens the editor to generate another brain from another text.
 
-- Mantenha rótulos **curtos** (1–3 palavras) — labels longos poluem o grafo.
-- 5–10 ramos e até ~8 folhas por ramo é o ponto de leitura ideal.
-- Agrupe por tema lógico, não copie títulos longos de seções literalmente.
+Text typed into the boxes is saved in the browser session (localStorage), per brain.
 
-## Exemplo
+## Quality tips
 
-`examples/cyber-30-dias.html` — um plano de estudos de cibersegurança (Security+, CEH, OSCP, CISSP) já montado, com todas as caixas de tema preenchidas.
+- Keep labels **short** (1–3 words) — long labels clutter the graph.
+- 5–10 branches and up to ~8 leaves per branch is the sweet spot.
+- Group by logical theme; don't copy long section titles verbatim.
 
-![Visão geral](assets/01-overview.png)
-![Caixa de texto do tema](assets/02-ramo-nota.png)
+## Example
+
+`examples/cyber-30-dias.html` — a cybersecurity study plan (Security+, CEH, OSCP, CISSP) already built, with every topic box filled.
+
+![Overview](assets/en/01-overview.png)
+![Topic text box](assets/en/02-topic-note.png)
+
+---
+
+**Translations of this README:** [Português](README.pt-BR.md) · [Español](README.es.md)

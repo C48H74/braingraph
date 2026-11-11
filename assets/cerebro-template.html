@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,18 +15,17 @@
   #stage{position:fixed;inset:0;display:block;cursor:grab}
   #stage.dragging{cursor:grabbing}
 
-  /* top bar */
   .bar{position:fixed;top:12px;left:12px;right:12px;display:flex;gap:8px;align-items:center;z-index:20;pointer-events:none}
   .bar > *{pointer-events:auto}
   .brand{font-weight:700;letter-spacing:.3px;font-size:14px;padding:6px 10px;background:var(--panel);border:1px solid var(--line);border-radius:10px}
   .search{flex:0 1 240px;display:flex;align-items:center;gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:5px 10px}
   .search input{border:0;background:transparent;outline:none;font-size:13px;width:100%;color:var(--ink)}
-  .btn{font-size:12.5px;font-weight:600;padding:7px 12px;background:var(--ink);color:#fff;border:1px solid var(--ink);border-radius:10px;cursor:pointer;transition:.15s}
+  .btn{font-size:12.5px;font-weight:600;padding:7px 12px;background:var(--ink);color:#fff;border:1px solid var(--ink);border-radius:10px;cursor:pointer;transition:.15s;font-family:inherit}
   .btn:hover{opacity:.85}
   .btn.ghost{background:var(--panel);color:var(--ink);border:1px solid var(--line)}
+  select.btn.ghost{appearance:none;-webkit-appearance:none;padding-right:12px}
   .spacer{flex:1}
 
-  /* editor panel */
   .editor{position:fixed;top:60px;left:12px;width:320px;max-width:calc(100vw - 24px);background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);z-index:19;overflow:hidden;transform:translateX(0);transition:transform .25s ease, opacity .25s;opacity:1}
   .editor.hidden{transform:translateX(-120%);opacity:0;pointer-events:none}
   .editor h3{margin:0;padding:12px 14px 6px;font-size:13px}
@@ -35,13 +34,11 @@
   .editor .row{display:flex;gap:8px;padding:10px 14px}
   .editor .row .btn{flex:1;text-align:center}
 
-  /* detail popover */
   .detail{position:fixed;bottom:16px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;border-radius:12px;padding:10px 16px;font-size:13px;z-index:21;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:.2s;max-width:80vw}
   .detail.show{opacity:1;transform:translateX(-50%) translateY(0)}
   .detail b{font-size:14px}
   .detail span{color:#bdbdbd}
 
-  /* note panel */
   .note{position:fixed;top:60px;right:12px;width:320px;max-width:calc(100vw - 24px);background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);z-index:19;display:flex;flex-direction:column;overflow:hidden;transform:translateX(0);transition:transform .25s ease,opacity .25s;opacity:1}
   .note.hidden{transform:translateX(120%);opacity:0;pointer-events:none}
   .note .nhead{display:flex;align-items:flex-start;gap:8px;padding:12px 14px 8px}
@@ -61,10 +58,9 @@
   .note .nav button{border:1px solid var(--line);background:var(--panel);border-radius:7px;cursor:pointer;font-size:12px;padding:3px 8px;color:var(--ink)}
   .note .nav button:hover{background:#fff}
 
-  /* legend / help */
   .foot{position:fixed;bottom:12px;right:12px;font-size:11px;color:var(--muted);z-index:18;text-align:right;line-height:1.6;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
   kbd{background:#fff;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:0 5px;font-family:inherit;font-size:10.5px}
-  @media (max-width:640px){ .editor{width:calc(100vw - 24px)} .search{flex-basis:120px} .foot{display:none} }
+  @media (max-width:640px){ .editor{width:calc(100vw - 24px)} .search{flex-basis:110px} .foot{display:none} }
 </style>
 </head>
 <body>
@@ -72,20 +68,21 @@
 
 <div class="bar">
   <div class="brand">🧠 Cérebro Vivo</div>
-  <div class="search"><span style="color:var(--muted);font-size:13px">⌕</span><input id="q" placeholder="buscar nó…" autocomplete="off"></div>
+  <div class="search"><span style="color:var(--muted);font-size:13px">⌕</span><input id="q" placeholder="search node…" autocomplete="off"></div>
   <div class="spacer"></div>
-  <button class="btn ghost" id="toggleEdit">✎ Texto</button>
-  <button class="btn ghost" id="fit">⤢ Centrar</button>
+  <select id="lang" class="btn ghost" title="language"><option value="en">EN</option><option value="pt">PT</option><option value="es">ES</option></select>
+  <button class="btn ghost" id="toggleEdit">✎ Text</button>
+  <button class="btn ghost" id="fit">⤢ Fit</button>
   <button class="btn" id="png">↧ PNG</button>
 </div>
 
 <div class="editor" id="editor">
-  <h3>Cole seu texto</h3>
-  <div class="hint">Use <b>#</b> p/ o centro, <b>##</b> p/ ramos, <b>-</b> p/ folhas. Ou cole texto solto: a 1ª linha vira o centro, as demais viram ramos.</div>
+  <h3 id="eTitle">Paste your text</h3>
+  <div class="hint" id="hint"></div>
   <textarea id="ta" spellcheck="false"></textarea>
   <div class="row">
-    <button class="btn" id="gen">Gerar cérebro</button>
-    <button class="btn ghost" id="sample">Exemplo</button>
+    <button class="btn" id="gen">Generate brain</button>
+    <button class="btn ghost" id="sample">Example</button>
   </div>
 </div>
 
@@ -97,16 +94,56 @@
     <div class="ntitle"><b id="nName">—</b><em id="nMeta"></em></div>
     <span class="nclose" id="nClose">✕</span>
   </div>
-  <textarea id="nText" placeholder="Escreva sobre este tema…" spellcheck="false"></textarea>
-  <div class="nfoot"><span class="ok" id="nOk">✓ salvo</span><span class="nav"><button id="nPrev">‹</button><button id="nNext">›</button></span></div>
+  <textarea id="nText" spellcheck="false"></textarea>
+  <div class="nfoot"><span class="ok" id="nOk">✓ saved</span><span class="nav"><button id="nPrev">‹</button><button id="nNext">›</button></span></div>
 </div>
-<div class="foot">
-  arraste o fundo p/ mover · roda p/ zoom · arraste um nó · clique p/ focar<br>
-  <kbd>duplo-clique</kbd> solta o nó · <kbd>Esc</kbd> limpa o foco
-</div>
+
+<div class="foot" id="foot"></div>
 
 <script>
 "use strict";
+
+/* ---------- i18n ---------- */
+const I18N={
+ en:{search:'search node…',text:'✎ Text',fit:'⤢ Fit',eTitle:'Paste your text',
+   hint:'Use <b>#</b> for the center, <b>##</b> for branches, <b>-</b> for leaves. Or paste plain text: the first line becomes the center, the rest become branches.',
+   gen:'Generate brain',sample:'Example',
+   foot:'drag background to move · wheel to zoom · drag a node · click to focus<br><kbd>double-click</kbd> releases a node · <kbd>Esc</kbd> clears focus',
+   saved:'✓ saved',writeAbout:l=>'Write about “'+l+'”…',
+   center:'center',branch:'branch',leaf:'leaf',conn:n=>n+' connection'+(n===1?'':'s')},
+ pt:{search:'buscar nó…',text:'✎ Texto',fit:'⤢ Centrar',eTitle:'Cole seu texto',
+   hint:'Use <b>#</b> p/ o centro, <b>##</b> p/ ramos, <b>-</b> p/ folhas. Ou cole texto solto: a 1ª linha vira o centro, as demais viram ramos.',
+   gen:'Gerar cérebro',sample:'Exemplo',
+   foot:'arraste o fundo p/ mover · roda p/ zoom · arraste um nó · clique p/ focar<br><kbd>duplo-clique</kbd> solta um nó · <kbd>Esc</kbd> limpa o foco',
+   saved:'✓ salvo',writeAbout:l=>'Escreva sobre “'+l+'”…',
+   center:'centro',branch:'ramo',leaf:'folha',conn:n=>n+' '+(n===1?'conexão':'conexões')},
+ es:{search:'buscar nodo…',text:'✎ Texto',fit:'⤢ Centrar',eTitle:'Pega tu texto',
+   hint:'Usa <b>#</b> para el centro, <b>##</b> para ramas, <b>-</b> para hojas. O pega texto libre: la 1ª línea es el centro, las demás son ramas.',
+   gen:'Generar cerebro',sample:'Ejemplo',
+   foot:'arrastra el fondo p/ mover · rueda p/ zoom · arrastra un nodo · clic p/ enfocar<br><kbd>doble clic</kbd> suelta un nodo · <kbd>Esc</kbd> limpia el foco',
+   saved:'✓ guardado',writeAbout:l=>'Escribe sobre “'+l+'”…',
+   center:'centro',branch:'rama',leaf:'hoja',conn:n=>n+' '+(n===1?'conexión':'conexiones')}
+};
+let LANG=(new URLSearchParams(location.search).get('lang')||'').toLowerCase();
+if(!I18N[LANG]) LANG='en';
+function T(){return I18N[LANG];}
+function applyLang(){
+  const t=T();
+  document.documentElement.lang=LANG;
+  document.getElementById('q').placeholder=t.search;
+  document.getElementById('toggleEdit').textContent=t.text;
+  document.getElementById('fit').textContent=t.fit;
+  document.getElementById('eTitle').textContent=t.eTitle;
+  document.getElementById('hint').innerHTML=t.hint;
+  document.getElementById('gen').textContent=t.gen;
+  document.getElementById('sample').textContent=t.sample;
+  document.getElementById('foot').innerHTML=t.foot;
+  document.getElementById('nOk').textContent=t.saved;
+  document.getElementById('lang').value=LANG;
+  if(noteNode) openNote(noteNode);
+}
+
+/* ---------- example content ---------- */
 const SAMPLE = `# Cyber 30 Dias
 ## Security+
 - Fundamentos
@@ -157,7 +194,6 @@ const SAMPLE = `# Cyber 30 Dias
 - Resposta a incidentes
 - Hardening`;
 
-/* conteúdo semente por tema (exemplo cyber) */
 const SEED = {
 "Cyber 30 Dias":"Plano intensivo de 30 dias (~300 h, ~10 h/dia) cobrindo o prático de Security+, CEH, OSCP e CISSP. Teoria curta de manhã, laboratório à tarde.",
 "Security+":"CompTIA SY0-701. A certificação de entrada mais reconhecida — base defensiva e de conceitos de segurança.",
@@ -208,12 +244,11 @@ const SEED = {
 "Hardening":"Reduzir superfície: baselines CIS, patching, políticas e desativar o que não se usa."
 };
 
-/* ---------- parser: texto -> {nodes, links} ---------- */
+/* ---------- parser: text -> {nodes, links} ---------- */
 function parse(text){
   const lines = text.replace(/\r/g,'').split('\n').map(l=>l.replace(/\t/g,'  ')).filter(l=>l.trim().length);
   let nodes=[], links=[], id=0;
-  const mk=(label,depth)=>{const n={id:id++,label:label.trim(),depth,x:0,y:0,vx:0,vy:0,pinned:false}; nodes.push(n); return n;};
-  // structured markers?
+  const mk=(label,depth)=>{const n={id:id++,label:label.trim(),depth,x:0,y:0,vx:0,vy:0,pinned:false,note:''}; nodes.push(n); return n;};
   const hasMarkers = lines.some(l=>/^(#{1,3}\s|[-*•]\s)/.test(l.trim()));
   let center=null, branch=null;
   if(hasMarkers){
@@ -222,12 +257,9 @@ function parse(text){
       if(/^#\s/.test(l)){ center = mk(l.replace(/^#\s+/,''),0); }
       else if(/^##\s/.test(l)){ const b=mk(l.replace(/^#{2}\s+/,''),1); branch=b; if(center) links.push([center.id,b.id]); }
       else if(/^###\s/.test(l)||/^[-*•]\s/.test(l)){ const leaf=mk(l.replace(/^(#{3}\s+|[-*•]\s+)/,''),2); if(branch) links.push([branch.id,leaf.id]); else if(center) links.push([center.id,leaf.id]); }
-      else { // bare line in structured mode
-        if(!center){ center=mk(l,0); } else { const b=mk(l,1); branch=b; links.push([center.id,b.id]); }
-      }
+      else { if(!center){ center=mk(l,0); } else { const b=mk(l,1); branch=b; links.push([center.id,b.id]); } }
     }
   } else {
-    // free text: first line = center, each next line = branch; split by commas into leaves
     center = mk(lines[0],0);
     for(let i=1;i<lines.length;i++){
       const parts=lines[i].split(/[,;·|]/).map(s=>s.trim()).filter(Boolean);
@@ -254,7 +286,6 @@ function build(text){
   G=parse(text);
   adj=new Map(); G.nodes.forEach(n=>adj.set(n.id,new Set()));
   G.links.forEach(([a,b])=>{adj.get(a).add(b);adj.get(b).add(a);});
-  // seed positions radially
   const center=G.nodes.find(n=>n.depth===0)||G.nodes[0];
   if(center){center.x=0;center.y=0;}
   const branches=G.nodes.filter(n=>n.depth===1);
@@ -262,7 +293,7 @@ function build(text){
     const leaves=[...adj.get(b.id)].map(id=>G.nodes[id]).filter(n=>n&&n.depth===2);
     leaves.forEach((lf,j)=>{const spread=(j-(leaves.length-1)/2)*0.35; lf.x=b.x+Math.cos(a+spread)*140; lf.y=b.y+Math.sin(a+spread)*140;});
   });
-  centerLabel=(center&&center.label)||'mapa';
+  centerLabel=(center&&center.label)||'map';
   let saved={}; try{ saved=JSON.parse(localStorage.getItem('cerebro:'+centerLabel)||'{}'); }catch(_){}
   for(const n of G.nodes){ n.note = (saved[n.label]!=null?saved[n.label]:(SEED[n.label]||'')); }
   focus=null; closeNote(); fit(true);
@@ -272,7 +303,6 @@ function radius(n){ return n.depth===0?26:n.depth===1?12:5; }
 
 function tick(){
   const N=G.nodes;
-  // repulsion (Barnes-hut-lite: all pairs, graphs are small)
   for(let i=0;i<N.length;i++){
     const a=N[i];
     for(let j=i+1;j<N.length;j++){
@@ -281,13 +311,11 @@ function tick(){
       a.vx+=fx;a.vy+=fy;b.vx-=fx;b.vy-=fy;
     }
   }
-  // springs
   for(const [s,t] of G.links){
     const a=N[s],b=N[t]; let dx=b.x-a.x, dy=b.y-a.y; let d=Math.sqrt(dx*dx+dy*dy)+.01;
     const rest=(a.depth===0||b.depth===0)?190:95; const k=(d-rest)*0.012;
     const fx=dx/d*k, fy=dy/d*k; a.vx+=fx;a.vy+=fy;b.vx-=fx;b.vy-=fy;
   }
-  // gravity to center + integrate
   for(const n of N){
     n.vx+=(-n.x)*0.0012; n.vy+=(-n.y)*0.0012;
     if(n===dragNode){continue;}
@@ -297,7 +325,6 @@ function tick(){
   }
 }
 
-/* ---------- transforms ---------- */
 function toScreen(x,y){ return [ (x-view.x)*view.k+cv.width/2/DPR, (y-view.y)*view.k+cv.height/2/DPR ]; }
 function toWorld(px,py){ return [ (px-cv.width/2/DPR)/view.k+view.x, (py-cv.height/2/DPR)/view.k+view.y ]; }
 
@@ -311,19 +338,15 @@ function fit(instant){
   if(instant){view={...target};}
 }
 
-/* ---------- draw ---------- */
 function roundLabel(n,screenX,screenY,r){
   const isCenter=n.depth===0, isBranch=n.depth===1;
   const dim = (focus && !focus.set.has(n.id)) || (query && !n.label.toLowerCase().includes(query));
   ctx.globalAlpha = dim?0.18:1;
-  // node dot
   ctx.beginPath(); ctx.arc(screenX,screenY,r,0,7);
   if(isCenter){ ctx.fillStyle='#111'; ctx.fill(); }
   else if(isBranch){ ctx.fillStyle='#111'; ctx.fill(); }
   else { ctx.fillStyle='#b5b5b5'; ctx.fill(); }
-  // highlight ring if focused/hover
   if(n===hoverNode || (focus&&focus.node===n)){ ctx.lineWidth=2; ctx.strokeStyle='#000'; ctx.beginPath(); ctx.arc(screenX,screenY,r+4,0,7); ctx.stroke(); }
-  // label
   const fs = isCenter?15:isBranch?13:11.5;
   ctx.font=(isCenter||isBranch?'600 ':'400 ')+fs+'px -apple-system,Inter,Segoe UI,sans-serif';
   ctx.fillStyle= isCenter?'#fff': '#222';
@@ -342,14 +365,11 @@ function roundLabel(n,screenX,screenY,r){
 
 function render(){
   tick();
-  // ease view
   view.x+=(target.x-view.x)*0.12; view.y+=(target.y-view.y)*0.12; view.k+=(target.k-view.k)*0.12;
   ctx.setTransform(DPR,0,0,DPR,0,0);
   ctx.clearRect(0,0,cv.width,cv.height);
-  // halo behind center
   const c=G.nodes.find(n=>n.depth===0);
   if(c){ const [sx,sy]=toScreen(c.x,c.y); const grd=ctx.createRadialGradient(sx,sy,10,sx,sy,170*view.k); grd.addColorStop(0,'rgba(0,0,0,0.05)'); grd.addColorStop(1,'rgba(0,0,0,0)'); ctx.fillStyle=grd; ctx.beginPath(); ctx.arc(sx,sy,170*view.k,0,7); ctx.fill(); }
-  // links
   for(const [s,t] of G.links){
     const a=G.nodes[s],b=G.nodes[t]; const [ax,ay]=toScreen(a.x,a.y),[bx,by]=toScreen(b.x,b.y);
     const dim=(focus && !(focus.set.has(a.id)&&focus.set.has(b.id)));
@@ -357,13 +377,11 @@ function render(){
     ctx.lineWidth=(a.depth===0||b.depth===0)?1.3:0.8;
     ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(bx,by); ctx.stroke();
   }
-  // nodes (leaves first, center last on top)
-  const order=[...G.nodes].sort((a,b)=>a.depth-b.depth===0?0:b.depth-a.depth);
+  const order=[...G.nodes].sort((a,b)=>b.depth-a.depth);
   for(const n of order){ const [sx,sy]=toScreen(n.x,n.y); roundLabel(n,sx,sy,radius(n)); }
   requestAnimationFrame(render);
 }
 
-/* ---------- picking ---------- */
 function pick(px,py){
   let best=null,bd=1e9;
   for(const n of G.nodes){ const [sx,sy]=toScreen(n.x,n.y); const r=radius(n)+ (n.depth===2?18:8); const d=Math.hypot(sx-px,sy-py); if(d<r && d<bd){bd=d;best=n;} }
@@ -379,13 +397,13 @@ const note=document.getElementById('note'), nName=document.getElementById('nName
       nDot=document.getElementById('nDot'), nOk=document.getElementById('nOk');
 let noteTimer=null;
 function openNote(n){
-  noteNode=n;
+  noteNode=n; const t=T();
   nName.textContent=n.label;
   const deg=adj.get(n.id).size;
-  nMeta.textContent=(n.depth===0?'centro':n.depth===1?'ramo':'folha')+' · '+deg+' conexõe'+(deg===1?'':'s');
+  nMeta.textContent=(n.depth===0?t.center:n.depth===1?t.branch:t.leaf)+' · '+t.conn(deg);
   nDot.className='dot'+(n.depth===2?' leaf':'');
   nText.value=n.note||'';
-  nText.placeholder='Escreva sobre "'+n.label+'"…';
+  nText.placeholder=t.writeAbout(n.label);
   note.classList.remove('hidden');
 }
 function closeNote(){ noteNode=null; note.classList.add('hidden'); }
@@ -406,7 +424,6 @@ document.getElementById('nPrev').onclick=()=>stepNote(-1);
 document.getElementById('nNext').onclick=()=>stepNote(1);
 function esc(s){return s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
 
-/* ---------- interaction ---------- */
 cv.addEventListener('mousedown',e=>{
   const n=pick(e.clientX,e.clientY);
   if(n){ dragNode=n; n.pinned=true; cv.classList.add('dragging'); }
@@ -420,28 +437,27 @@ addEventListener('mousemove',e=>{
   else if(panning){ target.x-=(e.clientX-last.x)/view.k; target.y-=(e.clientY-last.y)/view.k; view.x=target.x; view.y=target.y; last={x:e.clientX,y:e.clientY}; }
 });
 addEventListener('mouseup',e=>{
-  if(dragNode && Math.hypot(e.clientX-last.x,e.clientY-last.y)<4){ setFocus(dragNode); } // click = focus
+  if(dragNode && Math.hypot(e.clientX-last.x,e.clientY-last.y)<4){ setFocus(dragNode); }
   else if(!dragNode && panning && Math.hypot(e.clientX-last.x,e.clientY-last.y)<4){ setFocus(null); }
   dragNode=null; panning=false; cv.classList.remove('dragging');
 });
 cv.addEventListener('dblclick',e=>{ const n=pick(e.clientX,e.clientY); if(n){n.pinned=false;} });
-cv.addEventListener('wheel',e=>{ e.preventDefault(); const [wx,wy]=toWorld(e.clientX,e.clientY); const f=Math.exp(-e.deltaY*0.0012); target.k=Math.max(.2,Math.min(4,target.k*f)); // zoom toward cursor
+cv.addEventListener('wheel',e=>{ e.preventDefault(); const [wx,wy]=toWorld(e.clientX,e.clientY); const f=Math.exp(-e.deltaY*0.0012); target.k=Math.max(.2,Math.min(4,target.k*f));
   target.x=wx-(wx-target.x)*(view.k/target.k); target.y=wy-(wy-target.y)*(view.k/target.k); },{passive:false});
 addEventListener('keydown',e=>{ if(e.key==='Escape'){setFocus(null); document.getElementById('q').value=''; query='';} });
 
-// touch
 let pinchD=0;
 cv.addEventListener('touchstart',e=>{ if(e.touches.length===1){ const t=e.touches[0]; const n=pick(t.clientX,t.clientY); if(n){dragNode=n;n.pinned=true;} else panning=true; last={x:t.clientX,y:t.clientY}; } else if(e.touches.length===2){ pinchD=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);} },{passive:true});
 cv.addEventListener('touchmove',e=>{ if(e.touches.length===1){ const t=e.touches[0]; if(dragNode){const [wx,wy]=toWorld(t.clientX,t.clientY);dragNode.x=wx;dragNode.y=wy;dragNode.vx=dragNode.vy=0;} else if(panning){target.x-=(t.clientX-last.x)/view.k;target.y-=(t.clientY-last.y)/view.k;view.x=target.x;view.y=target.y;last={x:t.clientX,y:t.clientY};} } else if(e.touches.length===2){ const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY); if(pinchD){target.k=Math.max(.2,Math.min(4,target.k*(d/pinchD)));} pinchD=d; } e.preventDefault(); },{passive:false});
 cv.addEventListener('touchend',e=>{ if(dragNode && e.changedTouches.length){ setFocus(dragNode);} dragNode=null;panning=false;pinchD=0; });
 
-/* ---------- UI wiring ---------- */
 const ta=document.getElementById('ta'), editor=document.getElementById('editor');
 document.getElementById('gen').onclick=()=>{ build(ta.value.trim()||SAMPLE); editor.classList.add('hidden'); };
 document.getElementById('sample').onclick=()=>{ ta.value=SAMPLE; build(SAMPLE); };
 document.getElementById('toggleEdit').onclick=()=>editor.classList.toggle('hidden');
 document.getElementById('fit').onclick=()=>fit(false);
 document.getElementById('q').addEventListener('input',e=>{ query=e.target.value.trim().toLowerCase(); const hit=query&&G.nodes.find(n=>n.label.toLowerCase().includes(query)); if(hit){ target.x=hit.x; target.y=hit.y; } });
+document.getElementById('lang').addEventListener('change',e=>{ LANG=I18N[e.target.value]?e.target.value:'en'; applyLang(); });
 document.getElementById('png').onclick=async()=>{
   const url=cv.toDataURL('image/png');
   try{ const d=window.claude&&claude.use?await claude.use('downloads'):null;
@@ -450,6 +466,7 @@ document.getElementById('png').onclick=async()=>{
 };
 
 // init
+applyLang();
 ta.value=SAMPLE; build(SAMPLE); render();
 </script>
 </body>
