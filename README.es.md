@@ -1,53 +1,60 @@
-# 🧠 Cérebro Vivo — Cerebro Vivo
+<div align="center">
 
-> **En otros idiomas:** [🇬🇧 English](README.md) · [🇧🇷 Português](README.pt-BR.md)
+<img src="assets/banner.png" alt="braingraph" width="100%" />
 
-> Una **Claude Skill** que convierte cualquier texto en un grafo mental **vivo e interactivo** en HTML — hub central, ramas y hojas, física *force-directed*. Haz clic en cualquier nodo y se abre una **caja de texto editable** con el contenido del tema.
+# 🧠 braingraph
 
-**Cero dependencias · un único archivo `.html` · funciona offline · interfaz en EN / PT / ES.**
+**La forma open-source de convertir cualquier texto en un grafo mental vivo e interactivo.**
 
-![Cómo funciona](assets/es/00-how-it-works.png)
+[![License: MIT](https://img.shields.io/badge/license-MIT-111111.svg)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-111111.svg)](CONTRIBUTING.md)
+[![Dependencies: zero](https://img.shields.io/badge/dependencies-zero-111111.svg)](#)
+[![Claude Skill](https://img.shields.io/badge/Claude-Skill-111111.svg)](SKILL.md)
+[![GitHub stars](https://img.shields.io/github/stars/C48H74/braingraph?style=social)](https://github.com/C48H74/braingraph/stargazers)
 
----
+**[Empezar](#-empezar) · [Ejemplos](#-ejemplos) · [Cómo funciona](#%EF%B8%8F-cómo-funciona) · [Roadmap](ROADMAP.md) · [Contribuir](CONTRIBUTING.md)**
 
-## ✨ Qué hace
+🌐 **Idiomas:** [English](README.md) · [Português](README.pt-BR.md) · Español
 
-- Convierte texto (markdown o texto libre) en un **cerebro** navegable: `# centro`, `## ramas`, `- hojas`.
-- **Física continua** (force-directed): los nodos respiran, arrastras, haces zoom y buscas.
-- **Clic en un nodo → caja de texto del tema**, editable, con guardado automático y navegación ‹ ›.
-- Exporta **PNG**. Reabre el editor para montar otro cerebro cuando quieras.
-- **Interfaz trilingüe** (inglés, portugués, español) — selector arriba, admite `?lang=`.
-
----
-
-## 🖼️ Cómo se ve
-
-**Vista general** — el grafo completo, blanco y negro:
-
-![Vista general](assets/es/01-overview.png)
-
-**Clic en un nodo** — enfoca la vecindad y abre la caja del tema:
-
-![Caja del tema](assets/es/02-topic-note.png)
-
-**Editor** — pega tu texto y genera el cerebro:
-
-![Editor](assets/es/03-editor.png)
+</div>
 
 ---
 
-## 🚀 Instalar (Claude Code)
+Pega un texto, un documento, un esquema — lo que sea — y `braingraph` lo convierte en un cerebro **vivo** force-directed: un hub central, ramas y hojas que respiran y se reorganizan. Haz clic en cualquier nodo y se abre una **caja de texto editable**. Un único archivo HTML. Sin build, sin servidor, sin cuenta. Funciona offline, en cualquier navegador.
 
+## 🤔 ¿Por qué braingraph?
+
+| Reto | braingraph |
+|---|---|
+| Los documentos largos son difíciles de retener | Ve toda la estructura como un grafo vivo |
+| Las apps de mapas mentales piden cuenta y te atan | Un archivo HTML, cero dependencias, offline |
+| Los diagramas estáticos quedan obsoletos al instante | Cada nodo tiene una caja editable, guardada al escribir |
+| La mayoría de herramientas son solo en inglés | Interfaz en **EN / PT / ES** de fábrica |
+| Difícil de compartir o incrustar | Un único archivo para abrir, alojar o soltar donde sea |
+
+## ✨ Características
+
+- 🧠 **Texto → cerebro** — `#` centro, `##` ramas, `-` hojas. O pega texto libre y se estructura solo.
+- 🌀 **Física viva** — layout force-directed continuo; arrastra nodos, zoom, pan, búsqueda.
+- 📝 **Caja de tema por nodo** — clic en un nodo y se abre una caja editable; autoguardado, con navegación ‹ ›.
+- 🌐 **Interfaz trilingüe** — inglés (por defecto), portugués, español. Selector arriba o `?lang=en|pt|es`.
+- 🖼️ **Exportar PNG** — un clic para descargar el cerebro como imagen.
+- 📦 **Cero dependencias** — un único `.html`. Sin build, sin CDN, sin servidor.
+- ♻️ **Reutilizable** — como skill de Claude, herramienta independiente o incrustado.
+
+## 🚀 Empezar
+
+**1. Úsalo ya** — abre [`assets/cerebro-template.html`](assets/cerebro-template.html) en el navegador, haz clic en **✎ Texto**, pega y genera.
+
+**2. Instalar como skill de Claude**
 ```bash
 git clone https://github.com/C48H74/braingraph ~/.claude/skills/braingraph
 ```
 
-Luego pídele a Claude: *"convierte este texto en un cerebro vivo"* y pasa el contenido.
+**3. Solo pídeselo a Claude**
+> "Convierte este texto en un cerebro vivo" — y pega tu contenido.
 
-### Usar sin Claude
-Abre `assets/cerebro-template.html` (o `examples/cyber-30-dias.html`) en el navegador, haz clic en **✎ Texto**, pega y genera.
-
----
+**4. Incrustar** — copia el archivo HTML único en tu sitio o en un iframe. Es self-contained.
 
 ## 📝 Formato de entrada
 
@@ -61,41 +68,69 @@ Abre `assets/cerebro-template.html` (o `examples/cyber-30-dias.html`) en el nave
 ```
 
 - `#` → centro (uno solo) · `##` → rama · `-` `*` `•` → hoja
-- **Texto libre**: 1ª línea = centro, las demás = ramas; las comas se vuelven hojas.
+- **Texto libre**: 1ª línea = centro, cada línea siguiente = rama; las comas se vuelven hojas.
 
----
+## 💡 Ejemplos
+
+**De un esquema**
+```
+# Lanzamiento
+## Marketing
+- Landing page
+- Secuencia de email
+## Ingeniería
+- API
+- App móvil
+## Ventas
+- Script de demo
+- Precios
+```
+
+**De texto libre**
+```
+Viaje de fin de semana
+Sábado, museo, almuerzo, parque
+Domingo, mercado, playa
+```
+
+Cada nodo abre una caja para rellenar con detalles — notas, enlaces, descripciones — guardados al escribir.
+
+## 🖼️ Cómo funciona
+
+![Cómo funciona](assets/es/00-how-it-works.png)
+
+**Vista general**
+
+![Vista general](assets/es/01-overview.png)
+
+**Clic en un nodo → caja del tema**
+
+![Caja del tema](assets/es/02-topic-note.png)
 
 ## 📂 Estructura
 
 ```
-cerebro-vivo/
+braingraph/
 ├── SKILL.md                     # la skill (cómo la usa Claude)
 ├── README.md / .pt-BR / .es     # docs (EN principal + traducciones)
 ├── ROADMAP.md
+├── CONTRIBUTING.md
 ├── assets/
 │   ├── cerebro-template.html    # la plantilla (genérica, lista para usar)
+│   ├── banner.png
 │   └── en|pt|es/*.png           # capturas por idioma
 └── examples/
     └── cyber-30-dias.html       # ejemplo listo: plan Security+/CEH/OSCP/CISSP
 ```
 
----
+## 🤝 Contribuir
 
-## 🔧 Cómo lo monta la skill (modo rellenado)
+¡PRs bienvenidos! Ver [CONTRIBUTING.md](CONTRIBUTING.md). Ideas, nuevos cerebros de ejemplo, traducciones de la interfaz y temas visuales son estupendas primeras contribuciones.
 
-Claude edita dos puntos en el `<script>` de la plantilla:
+## ⭐ Historial de estrellas
 
-- `const SAMPLE = \`...\`;` → el texto del usuario.
-- `const SEED = { "etiqueta": "descripción del tema", ... };` → rellena la caja de cada nodo.
+[![Star History Chart](https://api.star-history.com/svg?repos=C48H74/braingraph&type=Date)](https://star-history.com/#C48H74/braingraph&Date)
 
-Y lo entrega como artefacto o archivo `.html`. Detalles en [`SKILL.md`](SKILL.md).
-
----
-
-## 🗺️ Roadmap
-
-Ver [`ROADMAP.md`](ROADMAP.md).
-
-## Licencia
+## 📄 Licencia
 
 MIT © [C48H74](https://github.com/C48H74)
