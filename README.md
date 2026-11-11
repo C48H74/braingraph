@@ -39,7 +39,7 @@
 ## 🚀 Install (Claude Code)
 
 ```bash
-git clone https://github.com/C48H74/cerebro-vivo ~/.claude/skills/cerebro-vivo
+git clone https://github.com/C48H74/braingraph ~/.claude/skills/braingraph
 ```
 
 Then ask Claude: *"turn this text into a living brain"* and pass the content.
