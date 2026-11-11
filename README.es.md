@@ -6,11 +6,11 @@
 
 **La forma open-source de convertir cualquier texto en un grafo mental vivo e interactivo.**
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-111111.svg)](LICENSE)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-111111.svg)](CONTRIBUTING.md)
-[![Dependencies: zero](https://img.shields.io/badge/dependencies-zero-111111.svg)](#)
-[![Claude Skill](https://img.shields.io/badge/Claude-Skill-111111.svg)](SKILL.md)
-[![GitHub stars](https://img.shields.io/github/stars/C48H74/braingraph?style=social)](https://github.com/C48H74/braingraph/stargazers)
+[![Stars](https://img.shields.io/github/stars/C48H74/braingraph?style=for-the-badge&logo=github&color=f5c518&label=STARS)](https://github.com/C48H74/braingraph/stargazers)
+[![License](https://img.shields.io/badge/LICENSE-MIT-1f8fff?style=for-the-badge)](LICENSE)
+[![PRs](https://img.shields.io/badge/PRS-WELCOME-3fb950?style=for-the-badge)](CONTRIBUTING.md)
+[![Zero deps](https://img.shields.io/badge/DEPENDENCIES-ZERO-e8590c?style=for-the-badge)](#)
+[![Claude Skill](https://img.shields.io/badge/CLAUDE-SKILL-8957e5?style=for-the-badge)](SKILL.md)
 
 **[Empezar](#-empezar) · [Ejemplos](#-ejemplos) · [Cómo funciona](#%EF%B8%8F-cómo-funciona) · [Roadmap](ROADMAP.md) · [Contribuir](CONTRIBUTING.md)**
 
